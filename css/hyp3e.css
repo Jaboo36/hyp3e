@@ -896,6 +896,33 @@
   font-size: 1.25em;
 }
 
+/* Item search bar — inline in the items-header next to the sort button */
+.hyp3e .inventory-header {
+  align-items: center;
+  gap: 8px;
+}
+.hyp3e .inventory-header h2 {
+  margin: 0;
+}
+.hyp3e .inventory-header .item-name-search {
+  flex: 1;
+  height: 24px;
+  padding: 0 6px;
+  font-size: 0.9em;
+  border: 1px solid var(--color-border-light-tertiary, #c9c7b8);
+  border-radius: 3px;
+}
+.hyp3e .items-list .items-header h3.item-name .item-name-search {
+  flex: 1;
+  height: 22px;
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 0.85em;
+  font-weight: normal;
+  border: 1px solid var(--color-border-light-tertiary, #c9c7b8);
+  border-radius: 3px;
+}
+
 /* Items-list styles used on all sheets & tabs.
   "Items" includes the Class & NPC Abilities lists, Weapons & Armor lists, 
     Spells list, Items (inventory) list, and Effects list. */

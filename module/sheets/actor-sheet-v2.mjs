@@ -786,6 +786,12 @@ export class Hyp3eActorSheetV2 extends HandlebarsApplicationMixin(ActorSheetV2) 
           }
         }
 
+        // Bind item name search filter
+        const searchInput = $html.querySelector('.item-name-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', this._onItemSearch.bind(this));
+        }
+
         // Log render completion
         Hyp3eLogger.info("HYP3EActorSheetV2 _onRender", `Actor Sheet rendered.`, { context, options, sheet: this });
     }
@@ -799,6 +805,43 @@ export class Hyp3eActorSheetV2 extends HandlebarsApplicationMixin(ActorSheetV2) 
     _canDragCoin(selector) {
       // Only owner/editor can drag coins
       return this.actor.isOwner;
+    }
+
+    // ===========================================================================
+    // ITEM SEARCH
+    // ===========================================================================
+
+    /**
+     * Filter the inventory list by item name as the user types in the search bar.
+     * @param {InputEvent} event
+     */
+    _onItemSearch(event) {
+        const query = event.target.value.trim().toLowerCase();
+        const html = this.element;
+
+        html.querySelectorAll('.items-list > .item-entry').forEach(entry => {
+            const name = entry.querySelector('.item-drop')?.textContent.trim().toLowerCase() ?? '';
+            const nameMatches = !query || name.includes(query);
+
+            if (entry.classList.contains('item-container')) {
+                // Check whether any contained items match the query
+                const contentsOl = entry.nextElementSibling;
+                const hasContents = contentsOl?.tagName === 'OL';
+                let anyContentsMatch = false;
+                if (hasContents && query) {
+                    contentsOl.querySelectorAll('.item-entry').forEach(sub => {
+                        const subName = sub.querySelector('.item-drop')?.textContent.trim().toLowerCase() ?? '';
+                        if (subName.includes(query)) anyContentsMatch = true;
+                    });
+                }
+
+                const showContainer = nameMatches || anyContentsMatch;
+                entry.style.display = showContainer ? '' : 'none';
+                if (hasContents) contentsOl.style.display = showContainer ? '' : 'none';
+            } else {
+                entry.style.display = nameMatches ? '' : 'none';
+            }
+        });
     }
 
     // ===========================================================================

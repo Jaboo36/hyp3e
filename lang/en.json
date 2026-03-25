@@ -421,6 +421,7 @@
             "location": "Location",
             "incr": "Add",
             "decr": "Subtract",
+            "search": "Search items...",
             "charges": "Charges",
             "maxCharges": "Max Charges",
             "spellsAbilities": "Spells/Abilities",
